@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Upload Fingerprints</title>
+	</head>
+	<body>
+		<h2>Upload Fingerprints for Multiple People</h2>
+		<form method="post" enctype="multipart/form-data">
+			<div id="people">
+				<div class="person">
+					<label>Name:</label>
+					<input type="text" name="names[]" required /><br /><br />
+
+					<label>Fingerprints (Select 1 to 4 images):</label>
+					<input
+						type="file"
+						name="fingerprints_0[]"
+						accept="image/*"
+						multiple
+						required
+					/><br /><br />
+				</div>
+			</div>
+			<button type="button" onclick="addPerson()">+ Add Another Person</button
+			><br /><br />
+			<button type="submit">Upload & Generate PDF</button>
+		</form>
+
+		<script>
+			let personCount = 1;
+
+			function addPerson() {
+				let peopleDiv = document.getElementById('people');
+				let newPerson = document.createElement('div');
+				newPerson.classList.add('person');
+				newPerson.innerHTML = `
+                <label>Name:</label>
+                <input type="text" name="names[]" required><br><br>
+
+                <label>Fingerprints (Select 1 to 4 images):</label>
+                <input type="file" name="fingerprints_${personCount}[]" accept="image/*" multiple required><br><br>
+            `;
+				peopleDiv.appendChild(newPerson);
+				personCount++;
+			}
+		</script>
+	</body>
+</html>
