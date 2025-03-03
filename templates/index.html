@@ -4,32 +4,70 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Upload Fingerprints</title>
+		<style>
+			body {
+				text-align: center;
+				font-family: Arial, sans-serif;
+			}
+			#content {
+				display: none; /* Hide content initially */
+			}
+			#password-container {
+				margin-top: 50px;
+			}
+		</style>
 	</head>
 	<body>
-		<h2>Upload Fingerprints for Multiple People</h2>
-		<form method="post" enctype="multipart/form-data">
-			<div id="people">
-				<div class="person">
-					<label>Name:</label>
-					<input type="text" name="names[]" required /><br /><br />
+		<!-- Password Input Section -->
+		<div id="password-container">
+			<h3>Enter Password to Access</h3>
+			<input type="password" id="password-input" placeholder="Enter password" />
+			<button onclick="checkPassword()">Submit</button>
+			<p id="error-message" style="color: red; display: none">
+				Incorrect Password
+			</p>
+		</div>
 
-					<label>Fingerprints (Select 1 to 4 images):</label>
-					<input
-						type="file"
-						name="fingerprints_0[]"
-						accept="image/*"
-						multiple
-						required
-					/><br /><br />
+		<!-- Hidden Content -->
+		<div id="content">
+			<h2>Fingerprints</h2>
+			<form method="post" enctype="multipart/form-data">
+				<div id="people">
+					<div class="person">
+						<label>Name:</label>
+						<input type="text" name="names[]" required /><br /><br />
+
+						<label>Fingerprints (Select 1 to 4 images):</label>
+						<input
+							type="file"
+							name="fingerprints_0[]"
+							accept="image/*"
+							multiple
+							required
+						/><br /><br />
+					</div>
 				</div>
-			</div>
-			<button type="button" onclick="addPerson()">+ Add Another Person</button
-			><br /><br />
-			<button type="submit">Upload & Generate PDF</button>
-		</form>
+				<button type="button" onclick="addPerson()">
+					+ Add Another Person
+				</button>
+				<br /><br />
+				<button type="submit">Upload & Generate PDF</button>
+			</form>
+		</div>
 
 		<script>
 			let personCount = 1;
+			const correctPassword = '1234'; // Change this to your desired password
+
+			function checkPassword() {
+				let enteredPassword = document.getElementById('password-input').value;
+				if (enteredPassword === correctPassword) {
+					document.getElementById('password-container').style.display = 'none';
+					document.getElementById('content').style.display = 'block';
+				} else {
+					document.getElementById('error-message').style.display = 'block';
+				}
+			}
 
 			function addPerson() {
 				let peopleDiv = document.getElementById('people');
